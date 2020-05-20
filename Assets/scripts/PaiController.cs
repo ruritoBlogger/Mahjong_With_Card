@@ -127,12 +127,12 @@ public class PaiController : MonoBehaviour
         return cnt;
     }
 
-    private int Sangenhai(List<int> list)
+    private int Yakuhai(List<int> list)
     {
         int cnt = 0;
         for( int i = 0; i < list.Count-2; i++ )
         {
-            if (list[i] > 34)
+            if (list[i] > 30)
             {
                 if (list[i] == list[i + 1] && list[i + 1] == list[i + 2])
                 {
@@ -142,6 +142,22 @@ public class PaiController : MonoBehaviour
             }
         }
         return cnt;
+    }
+
+    private int Tsitoitsu(List<int> list)
+    {
+        for( int i = 0; i < list.Count-1; i++ )
+        {
+            if( list[i] != list[i+1] )
+            {
+                return 0;
+            }
+            else
+            {
+                i++;
+            }
+        }
+        return 2;
     }
 
     // 数値で表されている牌を文字情報に変換する
