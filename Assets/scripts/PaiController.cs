@@ -110,6 +110,23 @@ public class PaiController : MonoBehaviour
         return 1;
     }
 
+    private int Ipeiko(List<int> list)
+    {
+        int cnt = 0;
+        for( int i = 0; i < list.Count-6; i++)
+        {
+            if (list[i] == list[i + 1] && list[i + 2] == list[i + 3] && list[i + 4] == list[i + 5])
+            {
+                if (list[i + 3] - list[i+1] == 1 && list[i + 5] - list[i+3] == 1)
+                {
+                    cnt++;
+                    i += 5;
+                }
+            }
+        }
+        return cnt;
+    }
+
     // 数値で表されている牌を文字情報に変換する
     private string Transform(int key)
     {
