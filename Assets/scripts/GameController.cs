@@ -15,11 +15,11 @@ public class GameController : MonoBehaviour
         menber_turn_list = ShuffleNumber(4);
 
         // Playerを初期化する
-        for( int i = 0; i < 4; i++ )
+        for (int i = 0; i < 4; i++)
         {
             DefaultPlayer tmp_player = new DefaultPlayer();
             tmp_player.Setup(menber_turn_list[i], player_names[i]);
-            menber_list.Add( tmp_player );
+            menber_list.Add(tmp_player);
         }
         Main();
     }
@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     {
         // 牌を並べる部分
 
-        
+
         // ドラチェック
 
 
@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
     {
         List<int> list = new List<int>();
 
-        for( int i = 0; i < key; i++ )
+        for (int i = 0; i < key; i++)
         {
             list.Add(i + 1);
         }

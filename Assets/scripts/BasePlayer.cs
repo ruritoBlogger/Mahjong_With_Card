@@ -12,14 +12,14 @@ public abstract class BasePlayer : MonoBehaviour
 
     private List<int> hands;
 
-    public void Setup( int tmp_zihu, string tmp_name )
+    public void Setup(int tmp_zihu, string tmp_name)
     {
         // 自風牌の設定
         zihu = tmp_zihu;
         // プレイヤー名の設定
-        name = tmp_name; 
+        name = tmp_name;
     }
-    
+
     // 手持ちの牌
     public List<int> Hands
     {
@@ -28,7 +28,7 @@ public abstract class BasePlayer : MonoBehaviour
     }
 
     // 山から取って来た牌を手持ちに追加
-    public void AddNewPai( int newPai )
+    public void AddNewPai(int newPai)
     {
         hands.Add(newPai);
     }
