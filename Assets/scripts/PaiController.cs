@@ -127,6 +127,23 @@ public class PaiController : MonoBehaviour
         return cnt;
     }
 
+    private int Sangenhai(List<int> list)
+    {
+        int cnt = 0;
+        for( int i = 0; i < list.Count-2; i++ )
+        {
+            if (list[i] > 34)
+            {
+                if (list[i] == list[i + 1] && list[i + 1] == list[i + 2])
+                {
+                    cnt++;
+                    i += 2;
+                }
+            }
+        }
+        return cnt;
+    }
+
     // 数値で表されている牌を文字情報に変換する
     private string Transform(int key)
     {
