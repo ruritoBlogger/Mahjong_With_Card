@@ -54,6 +54,18 @@ public class PaiController : MonoBehaviour
         }
 
         int point = 0;
+        if( yaku < 3 )
+        {
+            point = yaku * 1000;    
+        }
+        else if( yaku == 3 )
+        {
+            point = 3900;
+        }
+        else if( yaku < 5 )
+        {
+            point = 8000;
+        }
         return point;
     }
 
