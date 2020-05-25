@@ -49,12 +49,21 @@ public class GameController : MonoBehaviour
         for( int i = 0; i < pai_list.Count; i++ )
         {
             // 実際に打つ部分
-
+            int pai = sorted_pai_list[pai_list[i]];
+            menber_list[menber_turn_list[i]].AddNewPai(pai);
 
             // 上がりチェック
+            if( PaiController.GetComponent<PaiController>().CheckPoint(menber_list[menber_turn_list[i]].Hands) != 0 )
+            {
+                // 点棒処理
 
+            }
+            else
+            {
+                // 牌を捨てる処理
+                menber_list[menber_turn_list[i]].DumpPai();
+            }
         }
-
         // もし流局すれば流局処理
 
 
