@@ -12,6 +12,10 @@ public class GameController : MonoBehaviour
     private List<int> menber_turn_list;
     private List<BasePlayer> menber_list;
 
+    // 麻雀牌(変更不能) 
+    private List<int> sorted_pai_list;
+
+    // 麻雀牌の順番を管理
     private List<int> pai_list;
 
     private List<string> player_names = new List<string>() { "AaA", "BbB", "CcC", "DdD" };
@@ -30,7 +34,7 @@ public class GameController : MonoBehaviour
         }
 
         // 麻雀牌を取得する
-        pai_list = PaiController.GetComponent<PaiController>().GetTotalList();
+        sorted_pai_list = PaiController.GetComponent<PaiController>().GetTotalList();
         Main();
     }
 
@@ -38,16 +42,18 @@ public class GameController : MonoBehaviour
     void Main()
     {
         // 牌を並べる部分
-
+        pai_list = ShuffleNumber(sorted_pai_list.Count);
 
         // ドラチェック
+        
+        for( int i = 0; i < pai_list.Count; i++ )
+        {
+            // 実際に打つ部分
 
 
-        // 実際に打つ部分
+            // 上がりチェック
 
-
-        // 上がりチェック
-
+        }
 
         // もし流局すれば流局処理
 

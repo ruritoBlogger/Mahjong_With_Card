@@ -25,12 +25,6 @@ public class PaiController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     /*-------------------------------------------------------
      * 渡されたlistで上がれる時、何点かどうか判断する
      * 渡されたlistはソートされているものとする
