@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PaiController : MonoBehaviour
 {
-    private List<int> total_list;
+    public List<int> total_list;
 
     void Start()
     {
@@ -194,5 +194,10 @@ public class PaiController : MonoBehaviour
         {
             return zihai[(key - 1) % 10];
         }
+    }
+
+    public List<int> GetTotalList()
+    {
+        return total_list;
     }
 }

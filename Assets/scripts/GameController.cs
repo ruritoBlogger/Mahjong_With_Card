@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+
+    // 牌コントローラー
+    public GameObject PaiController;
+
+
     private List<int> menber_turn_list;
     private List<BasePlayer> menber_list;
+
+    private List<int> pai_list;
 
     private List<string> player_names = new List<string>() { "AaA", "BbB", "CcC", "DdD" };
 
@@ -21,6 +28,9 @@ public class GameController : MonoBehaviour
             tmp_player.Setup(menber_turn_list[i], player_names[i]);
             menber_list.Add(tmp_player);
         }
+
+        // 麻雀牌を取得する
+        pai_list = PaiController.GetComponent<PaiController>().GetTotalList();
         Main();
     }
 
