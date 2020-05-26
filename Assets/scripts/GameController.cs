@@ -8,9 +8,8 @@ public class GameController : MonoBehaviour
     // 牌コントローラー
     public GameObject PaiController;
 
-
     private List<int> menber_turn_list;
-    private List<BasePlayer> menber_list;
+    private List<BasePlayer> menber_list = new List<BasePlayer>();
 
     // 麻雀牌(変更不能) 
     private List<int> sorted_pai_list;
@@ -35,11 +34,9 @@ public class GameController : MonoBehaviour
 
         // 麻雀牌を取得する
         sorted_pai_list = PaiController.GetComponent<PaiController>().GetTotalList();
-        Main();
     }
 
-    // メイン関数
-    void Main()
+    void Update()
     {
         // 牌を並べる部分
         pai_list = ShuffleNumber(sorted_pai_list.Count);
@@ -48,12 +45,13 @@ public class GameController : MonoBehaviour
         
         for( int i = 0; i < pai_list.Count; i++ )
         {
+            int menber_key = i % 4;
             // 実際に打つ部分
-            int pai = sorted_pai_list[pai_list[i]];
-            menber_list[menber_turn_list[i]].AddNewPai(pai);
+            int pai = sorted_pai_list[pai_list[i]-1];
+            menber_list[menber_turn_list[menber_key]].AddNewPai(pai);
 
             // 上がりチェック
-            if( PaiController.GetComponent<PaiController>().CheckPoint(menber_list[menber_turn_list[i]].Hands) != 0 )
+            if( PaiController.GetComponent<PaiController>().CheckPoint(menber_list[menber_turn_list[menber_key]].Hands,false,false,false,false) != 0 )
             {
                 // 点棒処理
 
@@ -61,7 +59,7 @@ public class GameController : MonoBehaviour
             else
             {
                 // 牌を捨てる処理
-                menber_list[menber_turn_list[i]].DumpPai();
+                menber_list[menber_turn_list[menber_key]].DumpPai();
             }
         }
         // もし流局すれば流局処理

@@ -10,7 +10,7 @@ public abstract class BasePlayer : MonoBehaviour
     public int zihu;
     public string name;
 
-    private List<int> hands;
+    private List<int> hands = new List<int>();
 
     public void Setup(int tmp_zihu, string tmp_name)
     {
@@ -27,6 +27,12 @@ public abstract class BasePlayer : MonoBehaviour
         get { return this.hands; }
     }
 
+    public string Name
+    {
+        set { this.name = value; }
+        get { return this.name; }
+    }
+    
     // 山から取って来た牌を手持ちに追加
     public void AddNewPai(int newPai)
     {
@@ -38,6 +44,13 @@ public abstract class BasePlayer : MonoBehaviour
     {
         int choiced_pai = ChoicePai();
         hands.Remove(choiced_pai);
+        string tmp = "";
+        for( int i = 0; i < Hands.Count; i++ )
+        {
+            tmp += Hands[i].ToString();
+            tmp += " ";
+        }
+        Debug.Log(tmp);
     }
 
     // どの牌を捨てるか選ぶ部分
