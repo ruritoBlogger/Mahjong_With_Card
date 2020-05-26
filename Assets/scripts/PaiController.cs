@@ -41,14 +41,19 @@ public class PaiController : MonoBehaviour
     {
         int yaku = 0;
         // 頭が無いと成り立たない役を分ける
-        if (isHead(list))
+        //if (isHead(list))
+        if (true)
         {
             yaku += Tanyao(list);
 
         }
 
         int point = 0;
-        if( yaku < 3 )
+        if( yaku == 0 )
+        {
+            // なにもなし
+        }
+        else if( yaku < 3 )
         {
             point = yaku * 1000;    
         }

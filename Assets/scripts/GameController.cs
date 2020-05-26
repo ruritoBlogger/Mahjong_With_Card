@@ -41,9 +41,21 @@ public class GameController : MonoBehaviour
         // 牌を並べる部分
         pai_list = ShuffleNumber(sorted_pai_list.Count);
 
+        for( int i = 0; i < menber_list.Count; i++ )
+        {
+            List<int> tmp = new List<int>();
+            for( int j = 0; j < 13; j++ )
+            {
+                tmp.Add(sorted_pai_list[ pai_list[i*13+j]-1 ]);
+            }
+            GetPlayer(i).Hands = tmp;
+        }
+
+
         // ドラチェック
-        
-        for( int i = 0; i < pai_list.Count; i++ )
+
+        bool isGetReward = false;
+        for( int i = 13 * menber_list.Count; i < pai_list.Count; i++ )
         {
             int menber_key = i % 4;
             // 実際に打つ部分
@@ -54,7 +66,10 @@ public class GameController : MonoBehaviour
             if( PaiController.GetComponent<PaiController>().CheckPoint(GetPlayer(menber_key).Hands,false,false,false,false) != 0 )
             {
                 // 点棒処理
-
+                Debug.Log("あがったよ");
+                Debug.Log("-----------------------------------------------------");
+                isGetReward = true;
+                break;
             }
             else
             {
@@ -63,10 +78,12 @@ public class GameController : MonoBehaviour
             }
         }
         // もし流局すれば流局処理
-
+        if( !isGetReward )
+        {
+            Debug.Log("流局したよ");
+        }
 
         // 順位処理
-
     }
 
     // 順番をランダムに決める

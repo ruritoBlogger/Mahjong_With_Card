@@ -39,13 +39,14 @@ public abstract class BasePlayer : MonoBehaviour
     public void AddNewPai(int newPai)
     {
         hands.Add(newPai);
+        hands.Sort();
     }
 
     // 牌を捨てる処理
     public void DumpPai()
     {
         int choiced_pai = ChoicePai();
-        hands.Remove(choiced_pai);
+        hands.Remove(hands[choiced_pai]);
         /*
         string tmp = "";
         for( int i = 0; i < Hands.Count; i++ )
