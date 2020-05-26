@@ -68,7 +68,7 @@ public class PaiController : MonoBehaviour
     {
         for (int i = 0; i < list.Count - 2; i++)
         {
-            if (list[i] == list[i + 1] && list[i + 1] != list[i * 2])
+            if (list[i] == list[i + 1] && list[i + 1] != list[i + 2])
             {
                 return true;
             }

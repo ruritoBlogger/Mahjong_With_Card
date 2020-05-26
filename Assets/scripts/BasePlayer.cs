@@ -10,7 +10,7 @@ public abstract class BasePlayer : MonoBehaviour
     public int zihu;
     public string name;
 
-    private List<int> hands = new List<int>();
+    private List<int> hands;
 
     public void Setup(int tmp_zihu, string tmp_name)
     {
@@ -18,6 +18,8 @@ public abstract class BasePlayer : MonoBehaviour
         zihu = tmp_zihu;
         // プレイヤー名の設定
         name = tmp_name;
+        //手の初期化
+        hands = new List<int>();
     }
 
     // 手持ちの牌
@@ -44,6 +46,7 @@ public abstract class BasePlayer : MonoBehaviour
     {
         int choiced_pai = ChoicePai();
         hands.Remove(choiced_pai);
+        /*
         string tmp = "";
         for( int i = 0; i < Hands.Count; i++ )
         {
@@ -51,6 +54,7 @@ public abstract class BasePlayer : MonoBehaviour
             tmp += " ";
         }
         Debug.Log(tmp);
+        */
     }
 
     // どの牌を捨てるか選ぶ部分
