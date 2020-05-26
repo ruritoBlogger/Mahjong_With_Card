@@ -48,10 +48,10 @@ public class GameController : MonoBehaviour
             int menber_key = i % 4;
             // 実際に打つ部分
             int pai = sorted_pai_list[pai_list[i]-1];
-            menber_list[menber_turn_list[menber_key]].AddNewPai(pai);
+            menber_list[menber_turn_list[menber_key]-1].AddNewPai(pai);
 
             // 上がりチェック
-            if( PaiController.GetComponent<PaiController>().CheckPoint(menber_list[menber_turn_list[menber_key]].Hands,false,false,false,false) != 0 )
+            if( PaiController.GetComponent<PaiController>().CheckPoint(menber_list[menber_turn_list[menber_key]-1].Hands,false,false,false,false) != 0 )
             {
                 // 点棒処理
 
@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
             else
             {
                 // 牌を捨てる処理
-                menber_list[menber_turn_list[menber_key]].DumpPai();
+                menber_list[menber_turn_list[menber_key]-1].DumpPai();
             }
         }
         // もし流局すれば流局処理
