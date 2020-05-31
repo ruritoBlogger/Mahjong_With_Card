@@ -172,7 +172,7 @@ public class PaiController : MonoBehaviour
     }
 
     // 数値で表されている牌を文字情報に変換する
-    private string Transform(int key)
+    public string Transform(int key)
     {
         /*-------------------------------------------------
          * 萬子      索子      筒子    東西南北 　白発中

@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
 
     private List<string> player_names = new List<string>() { "AaA", "BbB", "CcC", "DdD" };
 
+    private bool flag = true;
+
     void Start()
     {
         // 親と順番を決める
@@ -63,15 +65,15 @@ public class GameController : MonoBehaviour
         // ドラチェック
 
         bool isGetReward = false;
-        for( int i = 13 * menber_list.Count; i < pai_list.Count; i++ )
+        for (int i = 13 * menber_list.Count; i < pai_list.Count; i++)
         {
             int menber_key = i % 4;
             // 実際に打つ部分
-            int pai = sorted_pai_list[pai_list[i]-1];
+            int pai = sorted_pai_list[pai_list[i] - 1];
             GetPlayer(menber_key).AddNewPai(pai);
 
             // 上がりチェック
-            if( PaiController.GetComponent<PaiController>().CheckPoint(GetPlayer(menber_key).Hands,false,false,false,false) != 0 )
+            if (PaiController.GetComponent<PaiController>().CheckPoint(GetPlayer(menber_key).Hands, false, false, false, false) != 0)
             {
                 // 点棒処理
                 Debug.Log("あがったよ");
@@ -84,11 +86,20 @@ public class GameController : MonoBehaviour
                 // 牌を捨てる処理
                 GetPlayer(menber_key).DumpPai();
             }
+            if (flag)
+            {
+                MovePai(pai_object_list[pai_list[i] - 1], i - 13 * menber_list.Count + 1);
+                Debug.Log(PaiController.GetComponent<PaiController>().Transform(sorted_pai_list[pai_list[i] - 1]));
+            }
+            if (i - 13 * menber_list.Count == 10 )
+            {
+                flag = false;
+            }
         }
         // もし流局すれば流局処理
         if( !isGetReward )
         {
-            Debug.Log("流局したよ");
+            //Debug.Log("流局したよ");
         }
 
         // 順位処理
@@ -118,5 +129,10 @@ public class GameController : MonoBehaviour
     private BasePlayer GetPlayer(int key)
     {
         return menber_list[menber_turn_list[key] - 1];
+    }
+
+    private void MovePai(GameObject pai, int z_key)
+    {
+        pai.transform.Translate(0.1f, 0f, z_key);
     }
 }
