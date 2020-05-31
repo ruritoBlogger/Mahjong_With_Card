@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     private List<int> menber_turn_list;
     private List<BasePlayer> menber_list = new List<BasePlayer>();
 
+    // 麻雀牌のゲームオブジェクトを管理する
+    private List<GameObject> pai_object_list;
+
     // 麻雀牌(変更不能) 
     private List<int> sorted_pai_list;
 
@@ -34,6 +37,11 @@ public class GameController : MonoBehaviour
 
         // 麻雀牌を取得する
         sorted_pai_list = PaiController.GetComponent<PaiController>().GetTotalList();
+
+        // 麻雀牌を紐づける
+        pai_object_list = new List<GameObject>( GameObject.FindGameObjectsWithTag("pai") );
+
+        Debug.Log(pai_object_list.Count);
     }
 
     void Update()
