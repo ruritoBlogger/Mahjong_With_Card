@@ -99,13 +99,12 @@ public class GameController : MonoBehaviour
                 Debug.Log(PaiController.GetComponent<PaiController>().TransformToInt(pai));
                 Debug.Log(PaiController.GetComponent<PaiController>().TransformToString(pai));
             }
-            if (i - 13 * menber_list.Count == 10 )
+            if (i - 13 * menber_list.Count == 10 && flag )
             {
                 List<GameObject> hands = new List<GameObject>();
                 foreach( int hand in GetPlayer(menber_key).Hands )
                 {
                     hands.Add(pai_object_list[hand]);
-
                 }
                 MovePais(hands, new Vector3(10.0f, 0.0f, 0.0f));
                 flag = false;
@@ -157,7 +156,7 @@ public class GameController : MonoBehaviour
         foreach( GameObject pai in pais )
         {
             pai.transform.position = point;
-            point = new Vector3(point.x + 0.1f, point.y, point.z);
+            point = new Vector3(point.x, point.y, point.z+1.0f);
         }
     }
 }
