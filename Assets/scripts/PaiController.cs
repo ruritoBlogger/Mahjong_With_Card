@@ -4,27 +4,26 @@ using UnityEngine;
 
 public class PaiController : MonoBehaviour
 {
-    public List<int> total_list;
 
-    void Start()
+    /*--------------------------------
+     * 渡されたlistは0 ~ 135番までの数値が格納されている
+     * これだとどの牌なのかが分からないので分かるように変換する
+     * 
+     * ex 1 = 1(1萬)
+     * ex 10 = 3(3萬)
+     * ex 102 = 
+     */
+
+     public int TransformToInt(int pai)
     {
-        // 麻雀牌を生成する
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 1; j < 10; j++)
-            {
-                if (i * 10 + j > 37)
-                {
-                    break;
-                }
-                total_list.Add(i * 10 + j);
-                total_list.Add(i * 10 + j);
-                total_list.Add(i * 10 + j);
-                total_list.Add(i * 10 + j);
-            }
-        }
-    }
+        int key = pai / 4;
 
+        // 萬子
+        if (key < 9) return key + 1;
+        else if (key < 18) return key + 2;
+        else if (key < 27) return key + 3;
+        else return key + 4;
+    }
     /*-------------------------------------------------------
      * 渡されたlistで上がれる時、何点かどうか判断する
      * 渡されたlistはソートされているものとする
@@ -172,7 +171,7 @@ public class PaiController : MonoBehaviour
     }
 
     // 数値で表されている牌を文字情報に変換する
-    public string Transform(int key)
+    public string TransformToString(int key)
     {
         /*-------------------------------------------------
          * 萬子      索子      筒子    東西南北 　白発中
@@ -184,7 +183,7 @@ public class PaiController : MonoBehaviour
 
         List<string> name = new List<string>() { "萬", "索", "筒" };
         List<string> zihai = new List<string>() { "東", "西", "南", "北", "白", "発", "中" };
-
+        key = TransformToInt(key);
         if (key < 30)
         {
             return (key % 10).ToString() + name[key / 10].ToString();
@@ -193,10 +192,5 @@ public class PaiController : MonoBehaviour
         {
             return zihai[(key - 1) % 10];
         }
-    }
-
-    public List<int> GetTotalList()
-    {
-        return total_list;
     }
 }

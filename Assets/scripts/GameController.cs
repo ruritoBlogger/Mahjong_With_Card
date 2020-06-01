@@ -37,8 +37,12 @@ public class GameController : MonoBehaviour
             menber_list.Add(tmp_player);
         }
 
-        // 麻雀牌を取得する
-        sorted_pai_list = PaiController.GetComponent<PaiController>().GetTotalList();
+        // 麻雀牌を生成する
+        sorted_pai_list = new List<int>();
+        for ( int i = 0; i < 136; i++ )
+        {
+            sorted_pai_list.Add(i);
+        }
 
         // 麻雀牌を紐づける
         pai_object_list = new List<GameObject>( GameObject.FindGameObjectsWithTag("pai") );
@@ -60,6 +64,7 @@ public class GameController : MonoBehaviour
             }
             GetPlayer(i).Hands = tmp;
         }
+
 
 
         // ドラチェック
@@ -89,10 +94,20 @@ public class GameController : MonoBehaviour
             if (flag)
             {
                 MovePai(pai_object_list[pai_list[i] - 1], i - 13 * menber_list.Count + 1);
-                Debug.Log(PaiController.GetComponent<PaiController>().Transform(sorted_pai_list[pai_list[i] - 1]));
+                Debug.Log("-------------------------------------");
+                Debug.Log(pai);
+                Debug.Log(PaiController.GetComponent<PaiController>().TransformToInt(pai));
+                Debug.Log(PaiController.GetComponent<PaiController>().TransformToString(pai));
             }
             if (i - 13 * menber_list.Count == 10 )
             {
+                List<GameObject> hands = new List<GameObject>();
+                foreach( int hand in GetPlayer(menber_key).Hands )
+                {
+                    hands.Add(pai_object_list[hand]);
+
+                }
+                MovePais(hands, new Vector3(10.0f, 0.0f, 0.0f));
                 flag = false;
             }
         }
@@ -134,5 +149,15 @@ public class GameController : MonoBehaviour
     private void MovePai(GameObject pai, int z_key)
     {
         pai.transform.Translate(0.1f, 0f, z_key);
+    }
+
+    // 基準座標から横並びさせる
+    private void MovePais(List<GameObject> pais, Vector3 point)
+    {
+        foreach( GameObject pai in pais )
+        {
+            pai.transform.position = point;
+            point = new Vector3(point.x + 0.1f, point.y, point.z);
+        }
     }
 }
