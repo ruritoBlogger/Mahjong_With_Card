@@ -123,9 +123,10 @@ public class GameController : MonoBehaviour
                 // 捨てた牌を表示する
                 if(true)
                 {
-                    MovePai(pai_object_list[dumped_pai], new Vector3( player_position[menber_key].x - 6 * player_direction[menber_key].x - 3 * player_direction[menber_key].z,
-                                                                      player_position[menber_key].y,
-                                                                      player_position[menber_key].z - 6 * player_direction[menber_key].z - 3 * player_direction[menber_key].x) );
+                    MovePai(pai_object_list[dumped_pai],
+                            new Vector3( player_direction[menber_key].x * GetPlayer(menber_key).Used.Count%7,
+                                         player_position[menber_key].y,
+                                         player_direction[menber_key].z * GetPlayer(menber_key).Used.Count/7) );
                 }
             }
             if (flag)
@@ -140,10 +141,11 @@ public class GameController : MonoBehaviour
                 {
                     hands.Add(pai_object_list[hand]);
                 }
-                MovePais(hands, new Vector3( player_position[menber_key].x - 6 * player_direction[menber_key].x,
-                                             player_position[menber_key].y,
-                                             player_position[menber_key].z - 6 * player_direction[menber_key].z),
-                                player_direction[menber_key]);
+                MovePais(hands, 
+                         new Vector3( player_position[menber_key].x - 6 * player_direction[menber_key].x,
+                                      player_position[menber_key].y,
+                                      player_position[menber_key].z - 6 * player_direction[menber_key].z),
+                         player_direction[menber_key]);
                 flag = false;
             }
         }
@@ -184,7 +186,7 @@ public class GameController : MonoBehaviour
 
     private void MovePai(GameObject pai, Vector3 key)
     {
-        pai.transform.Translate(key.x, key.y, key.z);
+        pai.transform.position = key;
     }
 
     // 基準座標から横並びさせる
