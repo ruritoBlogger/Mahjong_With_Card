@@ -51,11 +51,12 @@ public abstract class BasePlayer : MonoBehaviour
     }
 
     // 牌を捨てる処理
-    public void DumpPai()
+    public int DumpPai()
     {
-        int choiced_pai = ChoicePai();
-        used.Add(hands[choiced_pai]);
-        hands.Remove(hands[choiced_pai]);
+        int choiced = ChoicePai();
+        int choiced_pai = hands[choiced];
+        used.Add(choiced_pai);
+        hands.Remove(choiced_pai);
         /*
         string tmp = "";
         for( int i = 0; i < Hands.Count; i++ )
@@ -65,6 +66,8 @@ public abstract class BasePlayer : MonoBehaviour
         }
         Debug.Log(tmp);
         */
+
+        return choiced_pai;
     }
 
     // どの牌を捨てるか選ぶ部分
