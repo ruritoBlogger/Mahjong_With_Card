@@ -91,6 +91,7 @@ public class GameController : MonoBehaviour
             {
                 tmp.Add(sorted_pai_list[ pai_list[i*13+j]-1 ]);
             }
+            GetPlayer(i).Reset();
             GetPlayer(i).Hands = tmp;
         }
 

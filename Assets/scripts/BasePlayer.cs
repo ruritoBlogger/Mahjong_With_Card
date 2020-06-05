@@ -24,6 +24,12 @@ public abstract class BasePlayer : MonoBehaviour
         used = new List<int>();
     }
 
+    public void Reset()
+    {
+        hands = new List<int>();
+        used = new List<int>();
+    }
+
     // 手持ちの牌
     public List<int> Hands
     {
