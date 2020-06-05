@@ -14,6 +14,12 @@ public class GameController : MonoBehaviour
     // 麻雀牌のゲームオブジェクトを管理する
     private List<GameObject> pai_object_list;
 
+    // プレイヤーの位置を管理する
+    private List<Vector3> player_position;
+
+    // プレイヤー視点で左側から右側への方角
+    private List<Vector3> player_direction;
+
     // 麻雀牌(変更不能) 
     private List<int> sorted_pai_list;
 
@@ -35,6 +41,29 @@ public class GameController : MonoBehaviour
             DefaultPlayer tmp_player = new DefaultPlayer();
             tmp_player.Setup(menber_turn_list[i], player_names[i]);
             menber_list.Add(tmp_player);
+        }
+
+
+        /*------------------------
+         *  1
+         *4   2
+         *  3
+         *  
+         * プレイヤーの位置を初期化する
+         */
+
+        player_position = new List<Vector3>();
+        player_direction = new List<Vector3>();
+        for( int i = 0; i < 4; i++ )
+        {
+            int x_key = 0;
+            int z_key = 0;
+            if (i == 0) x_key -= 10;
+            else if (i == 1) z_key += 10;
+            else if (i == 2) x_key += 10;
+            else z_key -= 10;
+            player_position.Add(new Vector3(x_key, 0.0f, z_key));
+            player_direction.Add(new Vector3(-z_key/10, 0.0f, x_key/10));
         }
 
         // 麻雀牌を生成する
@@ -92,23 +121,29 @@ public class GameController : MonoBehaviour
                 int dumped_pai = GetPlayer(menber_key).DumpPai();
 
                 // 捨てた牌を表示する
-                if(flag)
+                if(true)
                 {
-                    MovePai(pai_object_list[dumped_pai], new Vector3(4.0f, 0.0f, -6.0f + GetPlayer(menber_key).Used.Count ) );
+                    MovePai(pai_object_list[dumped_pai], new Vector3( player_position[menber_key].x - 6 * player_direction[menber_key].x - 3 * player_direction[menber_key].z,
+                                                                      player_position[menber_key].y,
+                                                                      player_position[menber_key].z - 6 * player_direction[menber_key].z - 3 * player_direction[menber_key].x) );
                 }
             }
             if (flag)
             {
                 //MovePai(pai_object_list[pai_list[i] - 1], i - 13 * menber_list.Count + 1);
             }
-            if (i - 13 * menber_list.Count == 10 && flag )
+            //if (i - 13 * menber_list.Count == 10 && flag )
+            if ( true )
             {
                 List<GameObject> hands = new List<GameObject>();
                 foreach( int hand in GetPlayer(menber_key).Hands )
                 {
                     hands.Add(pai_object_list[hand]);
                 }
-                MovePais(hands, new Vector3(10.0f, 0.0f, -6.0f));
+                MovePais(hands, new Vector3( player_position[menber_key].x - 6 * player_direction[menber_key].x,
+                                             player_position[menber_key].y,
+                                             player_position[menber_key].z - 6 * player_direction[menber_key].z),
+                                player_direction[menber_key]);
                 flag = false;
             }
         }
@@ -153,12 +188,12 @@ public class GameController : MonoBehaviour
     }
 
     // 基準座標から横並びさせる
-    private void MovePais(List<GameObject> pais, Vector3 point)
+    private void MovePais(List<GameObject> pais, Vector3 point, Vector3 direction)
     {
         foreach( GameObject pai in pais )
         {
             pai.transform.position = point;
-            point = new Vector3(point.x, point.y, point.z+1.0f);
+            point = new Vector3(point.x+direction.x, point.y+direction.y, point.z+direction.z);
         }
     }
 }
