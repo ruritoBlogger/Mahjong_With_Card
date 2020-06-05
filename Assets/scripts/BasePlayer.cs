@@ -19,8 +19,9 @@ public abstract class BasePlayer : MonoBehaviour
         zihu = tmp_zihu;
         // プレイヤー名の設定
         name = tmp_name;
-        //手の初期化
+        //初期化
         hands = new List<int>();
+        used = new List<int>();
     }
 
     // 手持ちの牌

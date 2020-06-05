@@ -89,7 +89,13 @@ public class GameController : MonoBehaviour
             else
             {
                 // 牌を捨てる処理
-                GetPlayer(menber_key).DumpPai();
+                int dumped_pai = GetPlayer(menber_key).DumpPai();
+
+                // 捨てた牌を表示する
+                if(flag)
+                {
+                    MovePai(pai_object_list[dumped_pai], new Vector3(4.0f, 0.0f, -6.0f + GetPlayer(menber_key).Used.Count ) );
+                }
             }
             if (flag)
             {
@@ -141,9 +147,9 @@ public class GameController : MonoBehaviour
         return menber_list[menber_turn_list[key] - 1];
     }
 
-    private void MovePai(GameObject pai, int z_key)
+    private void MovePai(GameObject pai, Vector3 key)
     {
-        pai.transform.Translate(0.1f, 0f, z_key);
+        pai.transform.Translate(key.x, key.y, key.z);
     }
 
     // 基準座標から横並びさせる
