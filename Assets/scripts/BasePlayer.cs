@@ -11,6 +11,7 @@ public abstract class BasePlayer : MonoBehaviour
     public string name;
 
     private List<int> hands;
+    private List<int> used;
 
     public void Setup(int tmp_zihu, string tmp_name)
     {
@@ -27,6 +28,13 @@ public abstract class BasePlayer : MonoBehaviour
     {
         set { this.hands = value; }
         get { return this.hands; }
+    }
+    
+    // 捨てた牌
+    public List<int> Used
+    {
+        set { this.used = value; }
+        get { return this.used; }
     }
 
     public string Name
@@ -46,6 +54,7 @@ public abstract class BasePlayer : MonoBehaviour
     public void DumpPai()
     {
         int choiced_pai = ChoicePai();
+        used.Add(hands[choiced_pai]);
         hands.Remove(hands[choiced_pai]);
         /*
         string tmp = "";

@@ -93,11 +93,7 @@ public class GameController : MonoBehaviour
             }
             if (flag)
             {
-                MovePai(pai_object_list[pai_list[i] - 1], i - 13 * menber_list.Count + 1);
-                Debug.Log("-------------------------------------");
-                Debug.Log(pai);
-                Debug.Log(PaiController.GetComponent<PaiController>().TransformToInt(pai));
-                Debug.Log(PaiController.GetComponent<PaiController>().TransformToString(pai));
+                //MovePai(pai_object_list[pai_list[i] - 1], i - 13 * menber_list.Count + 1);
             }
             if (i - 13 * menber_list.Count == 10 && flag )
             {
@@ -106,7 +102,7 @@ public class GameController : MonoBehaviour
                 {
                     hands.Add(pai_object_list[hand]);
                 }
-                MovePais(hands, new Vector3(10.0f, 0.0f, 0.0f));
+                MovePais(hands, new Vector3(10.0f, 0.0f, -6.0f));
                 flag = false;
             }
         }
