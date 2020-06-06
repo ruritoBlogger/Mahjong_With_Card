@@ -120,14 +120,10 @@ public class GameController : MonoBehaviour
                 // 捨てた牌を表示する
                 if(true)
                 {
-                    /*
-                    Debug.Log("[" + player_position[menber_key].x / 3 + player_direction[menber_key].x * GetPlayer(menber_key).Used.Count%7
-                                  + "," + player_position[menber_key].z / 3 + player_direction[menber_key].z * (int)(GetPlayer(menber_key).Used.Count/7)));
-                                  */
                     MovePai(pai_object_list[dumped_pai],
-                            new Vector3( player.HandsPosition.x / 3 + player.Direction.x * player.Used.Count%7,
-                                         player.HandsPosition.y,
-                                         player.HandsPosition.z / 3 + player.Direction.z * (int)(player.Used.Count/7)) );
+                            new Vector3( player.DumpedPosition.x + player.Direction.x * (player.Used.Count%7-3),
+                                         player.DumpedPosition.y,
+                                         player.DumpedPosition.z + player.Direction.z * (player.Used.Count%7-3) ) );
                 }
             }
             if (flag)
