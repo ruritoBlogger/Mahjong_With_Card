@@ -98,12 +98,13 @@ public class GameController : MonoBehaviour
         for (int i = 13 * menber_list.Count; i < pai_list.Count; i++)
         {
             int menber_key = i % 4;
+            BasePlayer player = GetPlayer(menber_key);
             // 実際に打つ部分
             int pai = sorted_pai_list[pai_list[i] - 1];
-            GetPlayer(menber_key).AddNewPai(pai);
+            player.AddNewPai(pai);
 
             // 上がりチェック
-            if (PaiController.GetComponent<PaiController>().CheckPoint(GetPlayer(menber_key).Hands, false, false, false, false) != 0)
+            if (PaiController.GetComponent<PaiController>().CheckPoint(player.Hands, false, false, false, false) != 0)
             {
                 // 点棒処理
                 Debug.Log("あがったよ");
@@ -114,7 +115,7 @@ public class GameController : MonoBehaviour
             else
             {
                 // 牌を捨てる処理
-                int dumped_pai = GetPlayer(menber_key).DumpPai();
+                int dumped_pai = player.DumpPai();
 
                 // 捨てた牌を表示する
                 if(true)
@@ -124,9 +125,9 @@ public class GameController : MonoBehaviour
                                   + "," + player_position[menber_key].z / 3 + player_direction[menber_key].z * (int)(GetPlayer(menber_key).Used.Count/7)));
                                   */
                     MovePai(pai_object_list[dumped_pai],
-                            new Vector3( player_position[menber_key].x / 3 + player_direction[menber_key].x * GetPlayer(menber_key).Used.Count%7,
-                                         player_position[menber_key].y,
-                                         player_position[menber_key].z / 3 + player_direction[menber_key].z * (int)(GetPlayer(menber_key).Used.Count/7)) );
+                            new Vector3( player.HandsPosition.x / 3 + player.Direction.x * player.Used.Count%7,
+                                         player.HandsPosition.y,
+                                         player.HandsPosition.z / 3 + player.Direction.z * (int)(player.Used.Count/7)) );
                 }
             }
             if (flag)
@@ -137,15 +138,15 @@ public class GameController : MonoBehaviour
             if ( true )
             {
                 List<GameObject> hands = new List<GameObject>();
-                foreach( int hand in GetPlayer(menber_key).Hands )
+                foreach( int hand in player.Hands )
                 {
                     hands.Add(pai_object_list[hand]);
                 }
                 MovePais(hands, 
-                         new Vector3( player_position[menber_key].x - 6 * player_direction[menber_key].x,
-                                      player_position[menber_key].y,
-                                      player_position[menber_key].z - 6 * player_direction[menber_key].z),
-                         player_direction[menber_key]);
+                         new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
+                                      player.HandsPosition.y,
+                                      player.HandsPosition.z - 6 * player.Direction.z),
+                         player.Direction);
                 flag = false;
             }
         }

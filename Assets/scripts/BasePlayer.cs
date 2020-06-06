@@ -10,8 +10,8 @@ public abstract class BasePlayer : MonoBehaviour
     public int zihu;
     public string name;
 
-    private List<int> hands;
-    private List<int> used;
+    //private List<int> hands;
+    //private List<int> used;
 
     public void Setup(int tmp_zihu, string tmp_name)
     {
@@ -20,48 +20,47 @@ public abstract class BasePlayer : MonoBehaviour
         // プレイヤー名の設定
         name = tmp_name;
         //初期化
-        hands = new List<int>();
-        used = new List<int>();
+        Hands = new List<int>();
+        Used = new List<int>();
     }
 
     public void Reset()
     {
-        hands = new List<int>();
-        used = new List<int>();
+        Hands = new List<int>();
+        Used = new List<int>();
     }
 
     // 手持ちの牌
-    public List<int> Hands { set; get; }
+    public List<int> Hands { get; set; }
     
     // 捨てた牌
-    public List<int> Used { set; get; }
+    public List<int> Used { get; set; }
 
-    public string Name { set; get; }
+    public string Name { get; set; }
     
     // プレイヤーの手牌のポジションを管理する
-    public Vector3 HandsPosition { set; get; }
+    public Vector3 HandsPosition { get; set; }
     
     // プレイヤーの手牌のポジションを管理する
-    public Vector3 DumpedPosition { set; get; }
+    public Vector3 DumpedPosition { get; set; }
     
     // プレイヤーの手牌のポジションを管理する
-    public Vector3 Direction { set; get; }
-
+    public Vector3 Direction { get; set; }
     
     // 山から取って来た牌を手持ちに追加
     public void AddNewPai(int newPai)
     {
-        hands.Add(newPai);
-        hands.Sort();
+        Hands.Add(newPai);
+        Hands.Sort();
     }
 
     // 牌を捨てる処理
     public int DumpPai()
     {
         int choiced = ChoicePai();
-        int choiced_pai = hands[choiced];
-        used.Add(choiced_pai);
-        hands.Remove(choiced_pai);
+        int choiced_pai = Hands[choiced];
+        Used.Add(choiced_pai);
+        Hands.Remove(choiced_pai);
         /*
         string tmp = "";
         for( int i = 0; i < Hands.Count; i++ )
