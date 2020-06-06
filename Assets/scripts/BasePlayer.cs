@@ -31,24 +31,22 @@ public abstract class BasePlayer : MonoBehaviour
     }
 
     // 手持ちの牌
-    public List<int> Hands
-    {
-        set { this.hands = value; }
-        get { return this.hands; }
-    }
+    public List<int> Hands { set; get; }
     
     // 捨てた牌
-    public List<int> Used
-    {
-        set { this.used = value; }
-        get { return this.used; }
-    }
+    public List<int> Used { set; get; }
 
-    public string Name
-    {
-        set { this.name = value; }
-        get { return this.name; }
-    }
+    public string Name { set; get; }
+    
+    // プレイヤーの手牌のポジションを管理する
+    public Vector3 HandsPosition { set; get; }
+    
+    // プレイヤーの手牌のポジションを管理する
+    public Vector3 DumpedPosition { set; get; }
+    
+    // プレイヤーの手牌のポジションを管理する
+    public Vector3 Direction { set; get; }
+
     
     // 山から取って来た牌を手持ちに追加
     public void AddNewPai(int newPai)
@@ -79,4 +77,5 @@ public abstract class BasePlayer : MonoBehaviour
 
     // どの牌を捨てるか選ぶ部分
     public abstract int ChoicePai();
+
 }

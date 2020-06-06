@@ -14,12 +14,6 @@ public class GameController : MonoBehaviour
     // 麻雀牌のゲームオブジェクトを管理する
     private List<GameObject> pai_object_list;
 
-    // プレイヤーの位置を管理する
-    private List<Vector3> player_position;
-
-    // プレイヤー視点で左側から右側への方角
-    private List<Vector3> player_direction;
-
     // 麻雀牌(変更不能) 
     private List<int> sorted_pai_list;
 
@@ -52,8 +46,6 @@ public class GameController : MonoBehaviour
          * プレイヤーの位置を初期化する
          */
 
-        player_position = new List<Vector3>();
-        player_direction = new List<Vector3>();
         for( int i = 0; i < 4; i++ )
         {
             int x_key = 0;
@@ -62,8 +54,11 @@ public class GameController : MonoBehaviour
             else if (i == 1) z_key += 10;
             else if (i == 2) x_key += 10;
             else z_key -= 10;
-            player_position.Add(new Vector3(x_key, 0.0f, z_key));
-            player_direction.Add(new Vector3(-z_key/10, 0.0f, x_key/10));
+            //player_position.Add(new Vector3(x_key, 0.0f, z_key));
+            //player_direction.Add(new Vector3(-z_key/10, 0.0f, x_key/10));
+            GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
+            GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
+            GetPlayer(i).Direction = new Vector3(-z_key / 10, 0.0f, x_key / 10);
         }
 
         // 麻雀牌を生成する
@@ -124,10 +119,14 @@ public class GameController : MonoBehaviour
                 // 捨てた牌を表示する
                 if(true)
                 {
+                    /*
+                    Debug.Log("[" + player_position[menber_key].x / 3 + player_direction[menber_key].x * GetPlayer(menber_key).Used.Count%7
+                                  + "," + player_position[menber_key].z / 3 + player_direction[menber_key].z * (int)(GetPlayer(menber_key).Used.Count/7)));
+                                  */
                     MovePai(pai_object_list[dumped_pai],
-                            new Vector3( player_direction[menber_key].x * GetPlayer(menber_key).Used.Count%7,
+                            new Vector3( player_position[menber_key].x / 3 + player_direction[menber_key].x * GetPlayer(menber_key).Used.Count%7,
                                          player_position[menber_key].y,
-                                         player_direction[menber_key].z * GetPlayer(menber_key).Used.Count/7) );
+                                         player_position[menber_key].z / 3 + player_direction[menber_key].z * (int)(GetPlayer(menber_key).Used.Count/7)) );
                 }
             }
             if (flag)
