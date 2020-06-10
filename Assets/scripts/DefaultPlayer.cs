@@ -14,6 +14,7 @@ public class DefaultPlayer : BasePlayer
 
     IEnumerator WaitChoicingPai()
     {
-        yield return new WaitForSeconds(3);
+        Debug.Log("test");
+        yield return new WaitForSeconds(10);
     }
 }

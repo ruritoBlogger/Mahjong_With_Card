@@ -8,6 +8,9 @@ public class GameController : MonoBehaviour
     // 牌コントローラー
     public GameObject PaiController;
 
+    // プレイヤーのprefab
+    public GameObject player_prefab;
+
     private List<int> menber_turn_list;
     private List<BasePlayer> menber_list = new List<BasePlayer>();
 
@@ -32,7 +35,9 @@ public class GameController : MonoBehaviour
         // Playerを初期化する
         for (int i = 0; i < 4; i++)
         {
-            DefaultPlayer tmp_player = new DefaultPlayer();
+            GameObject tmp = Instantiate(player_prefab) as GameObject;
+            tmp.AddComponent(typeof(DefaultPlayer));
+            DefaultPlayer tmp_player = tmp.GetComponent<DefaultPlayer>();
             tmp_player.Setup(menber_turn_list[i], player_names[i]);
             menber_list.Add(tmp_player);
         }
@@ -121,9 +126,9 @@ public class GameController : MonoBehaviour
                 if(true)
                 {
                     MovePai(pai_object_list[dumped_pai],
-                            new Vector3( player.DumpedPosition.x + player.Direction.x * (player.Used.Count%7-3),
+                            new Vector3( player.DumpedPosition.x + player.Direction.x * (player.Used.Count%7-3) + (int)(player.Used.Count/7 * player.Direction.z),
                                          player.DumpedPosition.y,
-                                         player.DumpedPosition.z + player.Direction.z * (player.Used.Count%7-3) ) );
+                                         player.DumpedPosition.z + player.Direction.z * (player.Used.Count%7-3) + (int)(player.Used.Count/7 * (-player.Direction.x) )) );
                 }
             }
             if (flag)
