@@ -27,6 +27,12 @@ public class GameController : MonoBehaviour
 
     private bool flag = true;
 
+    // 現在のゲームモード
+    private int game_mode;
+
+    // 直前のゲームモード
+    private int last_mode;
+
     void Start()
     {
         // 親と順番を決める
@@ -76,27 +82,74 @@ public class GameController : MonoBehaviour
         // 麻雀牌を紐づける
         pai_object_list = new List<GameObject>( GameObject.FindGameObjectsWithTag("pai") );
 
-        Debug.Log(pai_object_list.Count);
+        // ゲームモードの設定
+        game_mode = 4;
+        last_mode = -1;
     }
 
+    /*
+     * ゲームモードについて
+     * 
+     * -1: 例外処理
+     *  1: ゲーム進行
+     *  2: 上がり処理
+     *  3: 親の交代処理
+     *  4: 牌の順番初期化
+     */
+
     void Update()
+    {
+        // ゲームが進行した場合
+        if (game_mode != last_mode)
+        {
+            last_mode = game_mode;
+            if (game_mode == -1)
+            {
+                Debug.Log("エラーが出たよ");
+            }
+            else if (game_mode == 1)
+            {
+                ProgressGame();
+            }
+            else if (game_mode == 2)
+            {
+                Debug.Log("未実装");
+                game_mode = 4;
+            }
+            else if (game_mode == 3)
+            {
+                Debug.Log("親を切り替えたよ");
+                game_mode = 4;
+            }
+            else if (game_mode == 4)
+            {
+                Initialize();
+            }
+        }
+    }
+
+    private void Initialize()
     {
         // 牌を並べる部分
         pai_list = ShuffleNumber(sorted_pai_list.Count);
 
-        for( int i = 0; i < menber_list.Count; i++ )
+        for (int i = 0; i < menber_list.Count; i++)
         {
             List<int> tmp = new List<int>();
-            for( int j = 0; j < 13; j++ )
+            for (int j = 0; j < 13; j++)
             {
-                tmp.Add(sorted_pai_list[ pai_list[i*13+j]-1 ]);
+                tmp.Add(sorted_pai_list[pai_list[i * 13 + j] - 1]);
             }
             GetPlayer(i).Reset();
             GetPlayer(i).Hands = tmp;
         }
 
+        // 次のゲームモードに移行
+        game_mode = 1;
+    }
 
-
+    private void ProgressGame()
+    {
         // ドラチェック
 
         bool isGetReward = false;
@@ -157,7 +210,7 @@ public class GameController : MonoBehaviour
             //Debug.Log("流局したよ");
         }
 
-        // 順位処理
+        game_mode = 3;
     }
 
     // 順番をランダムに決める

@@ -1044,6 +1044,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PaiController: {fileID: 1589678354}
+  player_prefab: {fileID: 8063082709008688696, guid: 9faeb0c4ca8555246bbce7c4d88235a0,
+    type: 3}
 --- !u!4 &218050068
 Transform:
   m_ObjectHideFlags: 0
