@@ -143,6 +143,12 @@ public class GameController : MonoBehaviour
 
     private void Initialize()
     {
+        // 牌の位置を初期化する
+        for( int i = 0; i < pai_object_list.Count; i++ )
+        {
+            MovePai(pai_object_list[i], new Vector3(0, -1, 0));
+        }
+
         // 牌を並べる部分
         pai_list = ShuffleNumber(sorted_pai_list.Count);
 
@@ -155,12 +161,7 @@ public class GameController : MonoBehaviour
             }
             GetPlayer(i).Reset();
             GetPlayer(i).Hands = tmp;
-        }
-
-        // 牌の位置を初期化する
-        for( int i = 0; i < pai_object_list.Count; i++ )
-        {
-            MovePai(pai_object_list[i], new Vector3(0, -1, 0));
+            ShowPlayerHands(GetPlayer(i));
         }
 
         // 次のゲームモードに移行
@@ -213,6 +214,8 @@ public class GameController : MonoBehaviour
             //if (i - 13 * menber_list.Count == 10 && flag )
             if ( true )
             {
+                ShowPlayerHands(player);
+                /*
                 List<GameObject> hands = new List<GameObject>();
                 foreach( int hand in player.Hands )
                 {
@@ -223,6 +226,7 @@ public class GameController : MonoBehaviour
                                       player.HandsPosition.y,
                                       player.HandsPosition.z - 6 * player.Direction.z),
                          player.Direction);
+                */
                 flag = false;
             }
         }
@@ -254,6 +258,20 @@ public class GameController : MonoBehaviour
         }
 
         return list;
+    }
+
+    public void ShowPlayerHands(BasePlayer player)
+    {
+        List<GameObject> hands = new List<GameObject>();
+        foreach( int hand in player.Hands )
+        {
+            hands.Add(pai_object_list[hand]);
+        }
+        MovePais(hands, 
+                 new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
+                              player.HandsPosition.y,
+                              player.HandsPosition.z - 6 * player.Direction.z),
+                 player.Direction);
     }
 
     private BasePlayer GetPlayer(int key)
