@@ -45,10 +45,21 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             GameObject tmp = Instantiate(player_prefab) as GameObject;
-            tmp.AddComponent(typeof(DefaultPlayer));
-            DefaultPlayer tmp_player = tmp.GetComponent<DefaultPlayer>();
-            tmp_player.Setup(menber_turn_list[i], player_names[i]);
-            menber_list.Add(tmp_player);
+            if (i == 1)
+            {
+                tmp.AddComponent(typeof(UserPlayer));
+                UserPlayer tmp_player = tmp.GetComponent<UserPlayer>();
+                tmp_player.Setup(menber_turn_list[i], player_names[i]);
+                menber_list.Add(tmp_player);
+            }
+            else
+            {
+                tmp.AddComponent(typeof(DefaultPlayer));
+                DefaultPlayer tmp_player = tmp.GetComponent<DefaultPlayer>();
+                tmp_player.Setup(menber_turn_list[i], player_names[i]);
+                menber_list.Add(tmp_player);
+            }
+            
         }
 
 

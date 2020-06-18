@@ -22,17 +22,14 @@ public class UserPlayer : BasePlayer
             }
             
         }
-        else
-        {
-            clickedGameObject = null;
-        }
     }
 
 
     public override int ChoicePai()
     {
-        while ( clickedGameObject == null )
+        if( clickedGameObject == null )
         {
+            return 0;
         }
         Debug.Log((int)(HandsPosition.x - clickedGameObject.transform.position.x));
         return (int)(HandsPosition.x - clickedGameObject.transform.position.x);
