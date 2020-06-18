@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices.ComTypes;
 
 public class GameController : MonoBehaviour
 {
@@ -161,6 +162,7 @@ public class GameController : MonoBehaviour
             }
             GetPlayer(i).Reset();
             GetPlayer(i).Hands = tmp;
+            GetPlayer(i).Hands.Sort();
             ShowPlayerHands(GetPlayer(i));
         }
 
@@ -179,9 +181,10 @@ public class GameController : MonoBehaviour
             BasePlayer player = GetPlayer(menber_key);
             // 実際に打つ部分
             int pai = sorted_pai_list[pai_list[i] - 1];
-            Type t = player.GetType();
             player.ResetTurn();
             player.AddNewPai(pai);
+
+            ShowPlayerHands(player);
 
             // 上がりチェック
             if (PaiController.GetComponent<PaiController>().CheckPoint(player.Hands, false, false, false, false) != 0)
