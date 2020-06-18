@@ -11,4 +11,7 @@ public class DefaultPlayer : BasePlayer
     {
         return UniTask.FromResult((int)UnityEngine.Random.Range(0f, 13f));
     }
+
+    // ランダムに牌を切るだけなので特に処理は実行しない
+    public override void ResetTurn() { }
 }

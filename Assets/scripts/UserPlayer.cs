@@ -42,7 +42,7 @@ public class UserPlayer : BasePlayer
     }
 
     // プレイヤーのターンが始まった際にオブジェクト情報を初期化する
-    public void ResetTurn()
+    public override void ResetTurn()
     {
         clickedGameObject = null;
     }

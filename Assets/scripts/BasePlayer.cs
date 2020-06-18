@@ -76,10 +76,7 @@ public abstract class BasePlayer : MonoBehaviour
     }
 
     // プレイヤーのターンが始まった際の処理
-    public void ResetTurn()
-    {
-
-    }
+    public abstract void ResetTurn();
 
     // どの牌を捨てるか選ぶ部分
     public abstract UniTask<int> ChoicePai();
