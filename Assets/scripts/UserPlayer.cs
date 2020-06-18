@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+using System;
 
 public class UserPlayer : BasePlayer
 {
     GameObject clickedGameObject;
+
+    private void Start()
+    {
+        clickedGameObject = null;
+    }
 
     // クリックを検知する
     private void Update()
@@ -25,14 +32,28 @@ public class UserPlayer : BasePlayer
         }
     }
 
+    // リセットする際にクリックされたオブジェクト情報を初期化する
+
+    public void Reset()
+    {
+        Hands = new List<int>();
+        Used = new List<int>();
+        ResetTurn();
+    }
+
+    // プレイヤーのターンが始まった際にオブジェクト情報を初期化する
+    public void ResetTurn()
+    {
+        clickedGameObject = null;
+    }
+
 
     public async override UniTask<int> ChoicePai()
     {
-        if( clickedGameObject == null )
-        {
-            return 0;
-        }
-        Debug.Log((int)(HandsPosition.x - clickedGameObject.transform.position.x));
-        return (int)(HandsPosition.x - clickedGameObject.transform.position.x);
+        // クリックされるまで待機
+        await new WaitWhile(() => clickedGameObject == null);
+
+        Debug.Log(Math.Abs((int)(HandsPosition.z - 6 - clickedGameObject.transform.position.z)));
+        return Math.Abs((int)(HandsPosition.z -6 - clickedGameObject.transform.position.z));
     }
 }

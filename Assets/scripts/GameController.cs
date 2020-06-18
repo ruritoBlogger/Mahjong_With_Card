@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
@@ -170,6 +169,7 @@ public class GameController : MonoBehaviour
 
     private async void ProgressGame()
     {
+        Debug.Log("test");
         // ドラチェック
 
         bool isGetReward = false;
@@ -179,6 +179,7 @@ public class GameController : MonoBehaviour
             BasePlayer player = GetPlayer(menber_key);
             // 実際に打つ部分
             int pai = sorted_pai_list[pai_list[i] - 1];
+            player.ResetTurn();
             player.AddNewPai(pai);
 
             // 上がりチェック
