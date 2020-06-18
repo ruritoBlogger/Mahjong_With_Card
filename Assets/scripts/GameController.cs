@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
 {
@@ -144,11 +147,17 @@ public class GameController : MonoBehaviour
             GetPlayer(i).Hands = tmp;
         }
 
+        // 牌の位置を初期化する
+        for( int i = 0; i < pai_object_list.Count; i++ )
+        {
+            MovePai(pai_object_list[i], new Vector3(0, -1, 0));
+        }
+
         // 次のゲームモードに移行
         game_mode = 1;
     }
 
-    private void ProgressGame()
+    private async void ProgressGame()
     {
         // ドラチェック
 
@@ -174,6 +183,7 @@ public class GameController : MonoBehaviour
             {
                 // 牌を捨てる処理
                 int dumped_pai = player.DumpPai();
+                await Task.Delay(1000);
 
                 // 捨てた牌を表示する
                 if(true)
@@ -226,7 +236,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < list.Count; i++)
         {
             int tmp = list[i];
-            int randomIndex = Random.Range(0, list.Count);
+            int randomIndex = UnityEngine.Random.Range(0, list.Count);
             list[i] = list[randomIndex];
             list[randomIndex] = tmp;
         }

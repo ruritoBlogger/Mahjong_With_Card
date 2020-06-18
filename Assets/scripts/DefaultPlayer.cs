@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class DefaultPlayer : BasePlayer
 {
@@ -9,17 +10,6 @@ public class DefaultPlayer : BasePlayer
     public override int ChoicePai()
     {
         int key = (int)UnityEngine.Random.Range(0f, 13f);
-        StartCoroutine(DelayMethod(1.0f, () =>
-        {
-            Debug.Log("あああああああああああああああああああああああああああああああ");
-        }));
-        Debug.Log("test2");
         return key;
-    }
-
-    IEnumerator DelayMethod(float waitTime, Action action)
-    {
-        yield return new WaitForSeconds(waitTime);
-        action();
     }
 }
