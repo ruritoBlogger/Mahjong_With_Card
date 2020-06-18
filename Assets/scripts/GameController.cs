@@ -183,15 +183,15 @@ public class GameController : MonoBehaviour
             {
                 // 牌を捨てる処理
                 int dumped_pai = player.DumpPai();
-                await Task.Delay(1000);
+                await Task.Delay(100);
 
                 // 捨てた牌を表示する
                 if(true)
                 {
                     MovePai(pai_object_list[dumped_pai],
-                            new Vector3( player.DumpedPosition.x + player.Direction.x * (player.Used.Count%7-3) + (int)(player.Used.Count/7 * player.Direction.z),
+                            new Vector3( player.DumpedPosition.x + player.Direction.x * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * player.Direction.z),
                                          player.DumpedPosition.y,
-                                         player.DumpedPosition.z + player.Direction.z * (player.Used.Count%7-3) + (int)(player.Used.Count/7 * (-player.Direction.x) )) );
+                                         player.DumpedPosition.z + player.Direction.z * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * (-player.Direction.x) )) );
                 }
             }
             if (flag)
