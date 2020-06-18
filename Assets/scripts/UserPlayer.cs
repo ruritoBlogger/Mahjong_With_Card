@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class UserPlayer : BasePlayer
 {
@@ -25,7 +26,7 @@ public class UserPlayer : BasePlayer
     }
 
 
-    public override int ChoicePai()
+    public async override UniTask<int> ChoicePai()
     {
         if( clickedGameObject == null )
         {

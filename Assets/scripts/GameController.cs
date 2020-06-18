@@ -193,7 +193,7 @@ public class GameController : MonoBehaviour
             else
             {
                 // 牌を捨てる処理
-                int dumped_pai = player.DumpPai();
+                int dumped_pai = await player.DumpPai();
                 await Task.Delay(100);
 
                 // 捨てた牌を表示する

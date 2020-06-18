@@ -7,9 +7,8 @@ using Cysharp.Threading.Tasks;
 public class DefaultPlayer : BasePlayer
 {
     // ランダムに切る牌を選ぶ
-    public override int ChoicePai()
+    public override UniTask<int> ChoicePai()
     {
-        int key = (int)UnityEngine.Random.Range(0f, 13f);
-        return key;
+        return UniTask.FromResult((int)UnityEngine.Random.Range(0f, 13f));
     }
 }

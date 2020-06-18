@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 
 // プレイヤーのベース関数
@@ -55,9 +56,9 @@ public abstract class BasePlayer : MonoBehaviour
     }
 
     // 牌を捨てる処理
-    public int DumpPai()
+    public async UniTask<int> DumpPai()
     {
-        int choiced = ChoicePai();
+        int choiced = await ChoicePai();
         int choiced_pai = Hands[choiced];
         Used.Add(choiced_pai);
         Hands.Remove(choiced_pai);
@@ -75,6 +76,6 @@ public abstract class BasePlayer : MonoBehaviour
     }
 
     // どの牌を捨てるか選ぶ部分
-    public abstract int ChoicePai();
+    public abstract UniTask<int> ChoicePai();
 
 }
