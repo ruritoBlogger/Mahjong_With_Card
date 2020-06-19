@@ -11,9 +11,6 @@ public abstract class BasePlayer : MonoBehaviour
     public int zihu;
     public string name;
 
-    //private List<int> hands;
-    //private List<int> used;
-
     public void Setup(int tmp_zihu, string tmp_name)
     {
         // 自風牌の設定
@@ -33,6 +30,9 @@ public abstract class BasePlayer : MonoBehaviour
 
     // 手持ちの牌
     public List<int> Hands { get; set; }
+
+    // GameObjectと接続している手牌
+    public Dictionary<int, GameObject> Hand_Objects { get; set; }
     
     // 捨てた牌
     public List<int> Used { get; set; }
@@ -53,6 +53,15 @@ public abstract class BasePlayer : MonoBehaviour
     {
         Hands.Add(newPai);
         Hands.Sort();
+    }
+
+    public void SetHandsObject(List<GameObject> pais)
+    {
+        Hand_Objects = new Dictionary<int, GameObject>();
+        for(int i = 0; i < pais.Count; i++ )
+        {
+            Hand_Objects.Add(i, pais[i]);
+        }
     }
 
     // 牌を捨てる処理

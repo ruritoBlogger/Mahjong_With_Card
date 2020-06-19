@@ -281,6 +281,7 @@ public class GameController : MonoBehaviour
         {
             hands.Add(pai_object_list[hand]);
         }
+        player.SetHandsObject(hands);
         MovePais(hands, 
                  new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
                               player.HandsPosition.y,

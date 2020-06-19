@@ -53,7 +53,13 @@ public class UserPlayer : BasePlayer
         // クリックされるまで待機
         await new WaitWhile(() => clickedGameObject == null);
 
-        Debug.Log(Math.Abs((int)(HandsPosition.z - 6 - clickedGameObject.transform.position.z)));
-        return Math.Abs((int)(HandsPosition.z -6 - clickedGameObject.transform.position.z));
+        Debug.Log(Math.Abs((int)(HandsPosition.z -6*Direction.z
+                                 - clickedGameObject.transform.position.z
+                                 + HandsPosition.x -6*Direction.x
+                                 - clickedGameObject.transform.position.x)));
+        return Math.Abs((int)(HandsPosition.z -6*Direction.z 
+                              - clickedGameObject.transform.position.z
+                              + HandsPosition.x -6*Direction.x
+                              - clickedGameObject.transform.position.x));
     }
 }
