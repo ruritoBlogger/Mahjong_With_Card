@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
     // プレイヤーのprefab
     public GameObject player_prefab;
 
+    // メインカメラ
+    public GameObject main_camera;
+
     private List<int> menber_turn_list;
     private List<BasePlayer> menber_list = new List<BasePlayer>();
 
@@ -45,7 +48,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             GameObject tmp = Instantiate(player_prefab) as GameObject;
-            if (i == 1)
+            if (i == 0)
             {
                 tmp.AddComponent(typeof(UserPlayer));
                 UserPlayer tmp_player = tmp.GetComponent<UserPlayer>();
@@ -84,6 +87,14 @@ public class GameController : MonoBehaviour
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
             GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
             GetPlayer(i).Direction = new Vector3(-z_key / 10, 0.0f, x_key / 10);
+
+            // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
+            UserPlayer tmp = new UserPlayer();
+            if( System.Object.ReferenceEquals(GetPlayer(i).GetType(), tmp.GetType()) )
+            {
+                main_camera.transform.position = new Vector3(GetPlayer(i).HandsPosition.x * 2.3f + GetPlayer(i).Direction.x, 3.0f, GetPlayer(i).HandsPosition.z * 2.3f + GetPlayer(i).Direction.z);
+                main_camera.transform.rotation = Quaternion.Euler(0, 90*(i+1), 0);
+            }
         }
 
         // 麻雀牌を生成する
