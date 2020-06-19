@@ -51,15 +51,25 @@ public class UserPlayer : BasePlayer
     public async override UniTask<int> ChoicePai()
     {
         // クリックされるまで待機
-        await new WaitWhile(() => clickedGameObject == null);
+        //await new WaitWhile(() => clickedGameObject == null );
+        do
+        {
+            clickedGameObject = await WaitClicking();
+        }
+        while (!Hand_Objects.ContainsKey(clickedGameObject));
 
-        Debug.Log(Math.Abs((int)(HandsPosition.z -6*Direction.z
-                                 - clickedGameObject.transform.position.z
-                                 + HandsPosition.x -6*Direction.x
-                                 - clickedGameObject.transform.position.x)));
+        /*
         return Math.Abs((int)(HandsPosition.z -6*Direction.z 
                               - clickedGameObject.transform.position.z
                               + HandsPosition.x -6*Direction.x
                               - clickedGameObject.transform.position.x));
+        */
+        return Hand_Objects[clickedGameObject];
+    }
+
+    private async UniTask<GameObject> WaitClicking()
+    {
+        await new WaitWhile(() => clickedGameObject == null);
+        return clickedGameObject;
     }
 }

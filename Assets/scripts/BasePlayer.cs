@@ -32,7 +32,7 @@ public abstract class BasePlayer : MonoBehaviour
     public List<int> Hands { get; set; }
 
     // GameObjectと接続している手牌
-    public Dictionary<int, GameObject> Hand_Objects { get; set; }
+    public Dictionary<GameObject, int> Hand_Objects { get; set; }
     
     // 捨てた牌
     public List<int> Used { get; set; }
@@ -57,10 +57,10 @@ public abstract class BasePlayer : MonoBehaviour
 
     public void SetHandsObject(List<GameObject> pais)
     {
-        Hand_Objects = new Dictionary<int, GameObject>();
+        Hand_Objects = new Dictionary<GameObject, int>();
         for(int i = 0; i < pais.Count; i++ )
         {
-            Hand_Objects.Add(i, pais[i]);
+            Hand_Objects.Add(pais[i], i);
         }
     }
 
