@@ -171,7 +171,7 @@ public class PaiController : MonoBehaviour
     }
 
     // 数値で表されている牌を文字情報に変換する
-    public string TransformToString(int key)
+    public string TransformToKanji(int key)
     {
         /*-------------------------------------------------
          * 萬子      索子      筒子    東西南北 　白発中
@@ -193,4 +193,28 @@ public class PaiController : MonoBehaviour
             return zihai[(key - 1) % 10];
         }
     }
+
+    public string TransformToString(int key)
+    {
+        /*-------------------------------------------------
+         * 萬子      索子      筒子    東西南北 　白発中
+         * 1 ~ 9   11 ~ 19   21 ~ 29   31 ~ 34    35 ~ 37
+         *
+         * 赤ドラは現状無し
+         *
+         */
+
+        List<string> name = new List<string>() { "man", "sou", "pin" };
+        List<string> zihai = new List<string>() { "ton", "sha", "nan", "pei", "haku", "hatsu", "tyuu" };
+        key = TransformToInt(key);
+        if (key < 30)
+        {
+            return (key % 10).ToString() + name[key / 10].ToString();
+        }
+        else
+        {
+            return zihai[(key - 1) % 10];
+        }
+    }
+
 }

@@ -62,7 +62,6 @@ public class GameController : MonoBehaviour
                 tmp_player.Setup(menber_turn_list[i], player_names[i]);
                 menber_list.Add(tmp_player);
             }
-            
         }
 
 
