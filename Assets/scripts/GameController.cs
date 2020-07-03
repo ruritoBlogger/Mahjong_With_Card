@@ -229,18 +229,6 @@ public class GameController : MonoBehaviour
             if ( true )
             {
                 ShowPlayerHands(player);
-                /*
-                List<GameObject> hands = new List<GameObject>();
-                foreach( int hand in player.Hands )
-                {
-                    hands.Add(pai_object_list[hand]);
-                }
-                MovePais(hands, 
-                         new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
-                                      player.HandsPosition.y,
-                                      player.HandsPosition.z - 6 * player.Direction.z),
-                         player.Direction);
-                */
                 flag = false;
             }
         }
