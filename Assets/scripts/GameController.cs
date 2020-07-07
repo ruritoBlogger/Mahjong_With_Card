@@ -39,6 +39,11 @@ public class GameController : MonoBehaviour
     // 直前のゲームモード
     private int last_mode;
 
+    // 麻雀牌のサイズ
+    private int pai_width = 20;
+    private int pai_height = 26;
+    private int pai_depth = 16;
+
     void Start()
     {
         // 親と順番を決める
@@ -77,15 +82,15 @@ public class GameController : MonoBehaviour
         {
             int x_key = 0;
             int z_key = 0;
-            if (i == 0) x_key -= 10;
-            else if (i == 1) z_key += 10;
-            else if (i == 2) x_key += 10;
-            else z_key -= 10;
+            if (i == 0) x_key -= 200;
+            else if (i == 1) z_key += 200;
+            else if (i == 2) x_key += 200;
+            else z_key -= 200;
             //player_position.Add(new Vector3(x_key, 0.0f, z_key));
             //player_direction.Add(new Vector3(-z_key/10, 0.0f, x_key/10));
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
             GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
-            GetPlayer(i).Direction = new Vector3(-z_key / 10, 0.0f, x_key / 10);
+            GetPlayer(i).Direction = new Vector3(-z_key / 10 * pai_width, 0.0f, x_key / 10 * pai_depth);
 
             // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
             UserPlayer tmp = new UserPlayer();
@@ -98,13 +103,23 @@ public class GameController : MonoBehaviour
 
         // 麻雀牌を生成する
         sorted_pai_list = new List<int>();
+        pai_object_list = new List<GameObject>();
         for ( int i = 0; i < 136; i++ )
         {
+            // iに対応した麻雀牌の名前を取得する
+            // ex 1 -> 1man
+            string tmp_name = PaiController.GetComponent<PaiController>().TransformToString(
+                PaiController.GetComponent<PaiController>().TransformToInt(i));
+
+            string key_name = PaiController.GetComponent<PaiController>().TransformToType(i);
+            string pai_name = PaiController.GetComponent<PaiController>().TransformToString(i);
+            GameObject pai_prefab = Resources.Load<GameObject>("prefabs/pais/" + key_name + "/" + pai_name);
+            GameObject tmp = Instantiate(pai_prefab) as GameObject;
+            tmp.transform.localScale = new Vector3(tmp.transform.localScale.x * 20, tmp.transform.localScale.y * 20, tmp.transform.localScale.z * 20);
+
+            pai_object_list.Add(tmp);
             sorted_pai_list.Add(i);
         }
-
-        // 麻雀牌を紐づける
-        pai_object_list = new List<GameObject>( GameObject.FindGameObjectsWithTag("pai") );
 
         // ゲームモードの設定
         game_mode = 4;
@@ -157,7 +172,7 @@ public class GameController : MonoBehaviour
         // 牌の位置を初期化する
         for( int i = 0; i < pai_object_list.Count; i++ )
         {
-            MovePai(pai_object_list[i], new Vector3(0, -1, 0));
+            MovePai(pai_object_list[i], new Vector3(0, -30, 0));
         }
 
         // 牌を並べる部分
