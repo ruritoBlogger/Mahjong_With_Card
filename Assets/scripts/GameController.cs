@@ -40,9 +40,9 @@ public class GameController : MonoBehaviour
     private int last_mode;
 
     // 麻雀牌のサイズ
-    private int pai_width = 20;
-    private int pai_height = 26;
-    private int pai_depth = 16;
+    private int pai_y = 200;
+    private int pai_z = 400;
+    private int pai_x = 316;
 
     void Start()
     {
@@ -82,15 +82,13 @@ public class GameController : MonoBehaviour
         {
             int x_key = 0;
             int z_key = 0;
-            if (i == 0) x_key -= 200;
-            else if (i == 1) z_key += 200;
-            else if (i == 2) x_key += 200;
-            else z_key -= 200;
-            //player_position.Add(new Vector3(x_key, 0.0f, z_key));
-            //player_direction.Add(new Vector3(-z_key/10, 0.0f, x_key/10));
+            if (i == 0) x_key -= 5000;
+            else if (i == 1) z_key += 5000;
+            else if (i == 2) x_key += 5000;
+            else z_key -= 5000;
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
             GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
-            GetPlayer(i).Direction = new Vector3(-z_key / 10 * pai_width, 0.0f, x_key / 10 * pai_depth);
+            GetPlayer(i).Direction = new Vector3(z_key/5000 * pai_x, 0.0f, x_key/5000 * pai_z);
 
             // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
             UserPlayer tmp = new UserPlayer();

@@ -170,6 +170,22 @@ public class PaiController : MonoBehaviour
         return 2;
     }
 
+    // 数値で表されている牌を種類に分類して文字情報に変換する
+    public string TransformToType(int key)
+    {
+        /*------------------------------------
+         * 00 ~ 35 manzu
+         * 36 ~ 71 sozu
+         * 72 ~ 107 pinzu
+         * 108 ~ 135 zihai
+         * 
+         */
+        List<string> name = new List<string>() { "manzu", "sozu", "pinzu", "zihai" };
+        key = TransformToInt(key);
+        return name[(int)(key / 10)];
+        
+    }
+
     // 数値で表されている牌を文字情報に変換する
     public string TransformToKanji(int key)
     {
