@@ -47,6 +47,9 @@ public abstract class BasePlayer : MonoBehaviour
     
     // プレイヤーの手牌のポジションを管理する
     public Vector3 Direction { get; set; }
+
+    // プレイヤーの手牌の向きを管理する
+    public Quaternion Rotation { get; set; }
     
     // 山から取って来た牌を手持ちに追加
     public void AddNewPai(int newPai)

@@ -89,6 +89,7 @@ public class GameController : MonoBehaviour
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
             GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
             GetPlayer(i).Direction = new Vector3(z_key/5000 * pai_x, 0.0f, x_key/5000 * pai_z);
+            GetPlayer(i).Rotation = Quaternion.Euler(-90, 90*i, 0);
 
             // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
             UserPlayer tmp = new UserPlayer();
@@ -286,7 +287,8 @@ public class GameController : MonoBehaviour
                  new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
                               player.HandsPosition.y,
                               player.HandsPosition.z - 6 * player.Direction.z),
-                 player.Direction);
+                 player.Direction,
+                 player.Rotation);
     }
 
     private BasePlayer GetPlayer(int key)
@@ -300,10 +302,11 @@ public class GameController : MonoBehaviour
     }
 
     // 基準座標から横並びさせる
-    private void MovePais(List<GameObject> pais, Vector3 point, Vector3 direction)
+    private void MovePais(List<GameObject> pais, Vector3 point, Vector3 direction, Quaternion rotation)
     {
         foreach( GameObject pai in pais )
         {
+            pai.transform.rotation = rotation;
             pai.transform.position = point;
             point = new Vector3(point.x+direction.x, point.y+direction.y, point.z+direction.z);
         }
