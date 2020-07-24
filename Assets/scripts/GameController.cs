@@ -40,9 +40,9 @@ public class GameController : MonoBehaviour
     private int last_mode;
 
     // 麻雀牌のサイズ
-    private int pai_y = 200;
-    private int pai_z = 400;
-    private int pai_x = 316;
+    private int pai_y = 5;
+    private int pai_z = 4;
+    private int pai_x = 3;
 
     void Start()
     {
@@ -82,13 +82,13 @@ public class GameController : MonoBehaviour
         {
             int x_key = 0;
             int z_key = 0;
-            if (i == 0) x_key -= 5000;
-            else if (i == 1) z_key += 5000;
-            else if (i == 2) x_key += 5000;
-            else z_key -= 5000;
+            if (i == 0) x_key -= 50;
+            else if (i == 1) z_key += 50;
+            else if (i == 2) x_key += 50;
+            else z_key -= 50;
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
             GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
-            GetPlayer(i).Direction = new Vector3(z_key/5000 * pai_x, 0.0f, x_key/5000 * pai_z);
+            GetPlayer(i).Direction = new Vector3(z_key/50 * pai_x, 0.0f, x_key/50 * pai_z);
             GetPlayer(i).Rotation = Quaternion.Euler(-90, 90*i, 0);
 
             // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
@@ -114,7 +114,7 @@ public class GameController : MonoBehaviour
             string pai_name = PaiController.GetComponent<PaiController>().TransformToString(i);
             GameObject pai_prefab = Resources.Load<GameObject>("prefabs/pais/" + key_name + "/" + pai_name);
             GameObject tmp = Instantiate(pai_prefab) as GameObject;
-            tmp.transform.localScale = new Vector3(tmp.transform.localScale.x * 20, tmp.transform.localScale.y * 20, tmp.transform.localScale.z * 20);
+            tmp.transform.localScale = new Vector3(tmp.transform.localScale.x * 0.2f, tmp.transform.localScale.y * 0.2f, tmp.transform.localScale.z * 0.2f);
 
             pai_object_list.Add(tmp);
             sorted_pai_list.Add(i);
