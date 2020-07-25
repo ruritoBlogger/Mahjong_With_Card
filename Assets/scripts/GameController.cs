@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
     // 麻雀牌のサイズ
     private int pai_y = 5;
     private int pai_z = 4;
-    private int pai_x = 3;
+    private int pai_x = 4;
 
     void Start()
     {
