@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     // 麻雀牌のゲームオブジェクトを管理する
     private List<GameObject> pai_object_list;
 
-    // 麻雀牌(変更不能) 
+    // 麻雀牌(変更不能)
     private List<int> sorted_pai_list;
 
     // 麻雀牌の順番を管理
@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
          *  1
          *4   2
          *  3
-         *  
+         *
          * プレイヤーの位置を初期化する
          */
 
@@ -95,8 +95,8 @@ public class GameController : MonoBehaviour
             UserPlayer tmp = new UserPlayer();
             if( System.Object.ReferenceEquals(GetPlayer(i).GetType(), tmp.GetType()) )
             {
-                main_camera.transform.position = new Vector3(GetPlayer(i).HandsPosition.x * 2.3f + GetPlayer(i).Direction.x, 3.0f, GetPlayer(i).HandsPosition.z * 2.3f + GetPlayer(i).Direction.z);
-                main_camera.transform.rotation = Quaternion.Euler(0, 90*(i+1), 0);
+                main_camera.transform.position = new Vector3(GetPlayer(i).HandsPosition.x * 1.7f + GetPlayer(i).Direction.x, 20.0f, GetPlayer(i).HandsPosition.z * 1.7f + GetPlayer(i).Direction.z);
+                main_camera.transform.rotation = Quaternion.Euler(20, 90*(i+1), 0);
             }
         }
 
