@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices.ComTypes;
 
 public class GameController : MonoBehaviour
 {
@@ -14,13 +14,16 @@ public class GameController : MonoBehaviour
     // プレイヤーのprefab
     public GameObject player_prefab;
 
+    // メインカメラ
+    public GameObject main_camera;
+
     private List<int> menber_turn_list;
     private List<BasePlayer> menber_list = new List<BasePlayer>();
 
     // 麻雀牌のゲームオブジェクトを管理する
     private List<GameObject> pai_object_list;
 
-    // 麻雀牌(変更不能) 
+    // 麻雀牌(変更不能)
     private List<int> sorted_pai_list;
 
     // 麻雀牌の順番を管理
@@ -36,6 +39,11 @@ public class GameController : MonoBehaviour
     // 直前のゲームモード
     private int last_mode;
 
+    // 麻雀牌のサイズ
+    private int pai_y = 5;
+    private int pai_z = 4;
+    private int pai_x = 4;
+
     void Start()
     {
         // 親と順番を決める
@@ -45,10 +53,20 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             GameObject tmp = Instantiate(player_prefab) as GameObject;
-            tmp.AddComponent(typeof(DefaultPlayer));
-            DefaultPlayer tmp_player = tmp.GetComponent<DefaultPlayer>();
-            tmp_player.Setup(menber_turn_list[i], player_names[i]);
-            menber_list.Add(tmp_player);
+            if (i == 0)
+            {
+                tmp.AddComponent(typeof(UserPlayer));
+                UserPlayer tmp_player = tmp.GetComponent<UserPlayer>();
+                tmp_player.Setup(menber_turn_list[i], player_names[i]);
+                menber_list.Add(tmp_player);
+            }
+            else
+            {
+                tmp.AddComponent(typeof(DefaultPlayer));
+                DefaultPlayer tmp_player = tmp.GetComponent<DefaultPlayer>();
+                tmp_player.Setup(menber_turn_list[i], player_names[i]);
+                menber_list.Add(tmp_player);
+            }
         }
 
 
@@ -56,7 +74,7 @@ public class GameController : MonoBehaviour
          *  1
          *4   2
          *  3
-         *  
+         *
          * プレイヤーの位置を初期化する
          */
 
@@ -64,26 +82,44 @@ public class GameController : MonoBehaviour
         {
             int x_key = 0;
             int z_key = 0;
-            if (i == 0) x_key -= 10;
-            else if (i == 1) z_key += 10;
-            else if (i == 2) x_key += 10;
-            else z_key -= 10;
-            //player_position.Add(new Vector3(x_key, 0.0f, z_key));
-            //player_direction.Add(new Vector3(-z_key/10, 0.0f, x_key/10));
+            if (i == 0) x_key -= 50;
+            else if (i == 1) z_key += 50;
+            else if (i == 2) x_key += 50;
+            else z_key -= 50;
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
-            GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
-            GetPlayer(i).Direction = new Vector3(-z_key / 10, 0.0f, x_key / 10);
+            GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, -1.0f, z_key / 2);
+            GetPlayer(i).Direction = new Vector3(-z_key/50 * pai_x, 0.0f, x_key/50 * pai_z);
+            GetPlayer(i).Rotation = Quaternion.Euler(-90, 90*i, 0);
+
+            // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
+            UserPlayer tmp = new UserPlayer();
+            if( System.Object.ReferenceEquals(GetPlayer(i).GetType(), tmp.GetType()) )
+            {
+                main_camera.transform.position = new Vector3(GetPlayer(i).HandsPosition.x * 1.8f + GetPlayer(i).Direction.x, 35.0f, GetPlayer(i).HandsPosition.z * 1.8f + GetPlayer(i).Direction.z);
+                main_camera.transform.rotation = Quaternion.Euler(35, 90*(i+1), 0);
+            }
         }
 
         // 麻雀牌を生成する
         sorted_pai_list = new List<int>();
+        pai_object_list = new List<GameObject>();
         for ( int i = 0; i < 136; i++ )
         {
+            // iに対応した麻雀牌の名前を取得する
+            // ex 1 -> 1man
+            string tmp_name = PaiController.GetComponent<PaiController>().TransformToString(
+                PaiController.GetComponent<PaiController>().TransformToInt(i));
+
+            string key_name = PaiController.GetComponent<PaiController>().TransformToType(i);
+            string pai_name = PaiController.GetComponent<PaiController>().TransformToString(i);
+            GameObject pai_prefab = Resources.Load<GameObject>("prefabs/pais/" + key_name + "/" + pai_name);
+            GameObject tmp = Instantiate(pai_prefab) as GameObject;
+            tmp.AddComponent<BoxCollider>();
+            tmp.transform.localScale = new Vector3(tmp.transform.localScale.x * 0.2f, tmp.transform.localScale.y * 0.2f, tmp.transform.localScale.z * 0.2f);
+
+            pai_object_list.Add(tmp);
             sorted_pai_list.Add(i);
         }
-
-        // 麻雀牌を紐づける
-        pai_object_list = new List<GameObject>( GameObject.FindGameObjectsWithTag("pai") );
 
         // ゲームモードの設定
         game_mode = 4;
@@ -92,7 +128,7 @@ public class GameController : MonoBehaviour
 
     /*
      * ゲームモードについて
-     * 
+     *
      * -1: 例外処理
      *  1: ゲーム進行
      *  2: 上がり処理
@@ -133,6 +169,12 @@ public class GameController : MonoBehaviour
 
     private void Initialize()
     {
+        // 牌の位置を初期化する
+        for( int i = 0; i < pai_object_list.Count; i++ )
+        {
+            MovePai(pai_object_list[i], new Vector3(0, -30, 0), Quaternion.Euler(0, 0, 0));
+        }
+
         // 牌を並べる部分
         pai_list = ShuffleNumber(sorted_pai_list.Count);
 
@@ -145,12 +187,8 @@ public class GameController : MonoBehaviour
             }
             GetPlayer(i).Reset();
             GetPlayer(i).Hands = tmp;
-        }
-
-        // 牌の位置を初期化する
-        for( int i = 0; i < pai_object_list.Count; i++ )
-        {
-            MovePai(pai_object_list[i], new Vector3(0, -1, 0));
+            GetPlayer(i).Hands.Sort();
+            ShowPlayerHands(GetPlayer(i));
         }
 
         // 次のゲームモードに移行
@@ -168,7 +206,10 @@ public class GameController : MonoBehaviour
             BasePlayer player = GetPlayer(menber_key);
             // 実際に打つ部分
             int pai = sorted_pai_list[pai_list[i] - 1];
+            player.ResetTurn();
             player.AddNewPai(pai);
+
+            ShowPlayerHands(player);
 
             // 上がりチェック
             if (PaiController.GetComponent<PaiController>().CheckPoint(player.Hands, false, false, false, false) != 0)
@@ -182,7 +223,7 @@ public class GameController : MonoBehaviour
             else
             {
                 // 牌を捨てる処理
-                int dumped_pai = player.DumpPai();
+                int dumped_pai = await player.DumpPai();
                 await Task.Delay(100);
 
                 // 捨てた牌を表示する
@@ -191,7 +232,9 @@ public class GameController : MonoBehaviour
                     MovePai(pai_object_list[dumped_pai],
                             new Vector3( player.DumpedPosition.x + player.Direction.x * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * player.Direction.z),
                                          player.DumpedPosition.y,
-                                         player.DumpedPosition.z + player.Direction.z * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * (-player.Direction.x) )) );
+                                         player.DumpedPosition.z + player.Direction.z * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * (-player.Direction.x) )),
+                                Quaternion.Euler(0, player.Rotation.y + (menber_key)*90+90, 270)
+                                );
                 }
             }
             if (flag)
@@ -201,16 +244,7 @@ public class GameController : MonoBehaviour
             //if (i - 13 * menber_list.Count == 10 && flag )
             if ( true )
             {
-                List<GameObject> hands = new List<GameObject>();
-                foreach( int hand in player.Hands )
-                {
-                    hands.Add(pai_object_list[hand]);
-                }
-                MovePais(hands, 
-                         new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
-                                      player.HandsPosition.y,
-                                      player.HandsPosition.z - 6 * player.Direction.z),
-                         player.Direction);
+                ShowPlayerHands(player);
                 flag = false;
             }
         }
@@ -244,21 +278,39 @@ public class GameController : MonoBehaviour
         return list;
     }
 
+    public void ShowPlayerHands(BasePlayer player)
+    {
+        List<GameObject> hands = new List<GameObject>();
+        foreach( int hand in player.Hands )
+        {
+            hands.Add(pai_object_list[hand]);
+        }
+        player.SetHandsObject(hands);
+        MovePais(hands,
+                 new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
+                              player.HandsPosition.y,
+                              player.HandsPosition.z - 6 * player.Direction.z),
+                 player.Direction,
+                 player.Rotation);
+    }
+
     private BasePlayer GetPlayer(int key)
     {
         return menber_list[menber_turn_list[key] - 1];
     }
 
-    private void MovePai(GameObject pai, Vector3 key)
+    private void MovePai(GameObject pai, Vector3 key, Quaternion rotation)
     {
         pai.transform.position = key;
+        pai.transform.rotation = rotation;
     }
 
     // 基準座標から横並びさせる
-    private void MovePais(List<GameObject> pais, Vector3 point, Vector3 direction)
+    private void MovePais(List<GameObject> pais, Vector3 point, Vector3 direction, Quaternion rotation)
     {
         foreach( GameObject pai in pais )
         {
+            pai.transform.rotation = rotation;
             pai.transform.position = point;
             point = new Vector3(point.x+direction.x, point.y+direction.y, point.z+direction.z);
         }

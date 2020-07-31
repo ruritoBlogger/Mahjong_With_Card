@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 
 // プレイヤーのベース関数
@@ -9,9 +10,6 @@ public abstract class BasePlayer : MonoBehaviour
 {
     public int zihu;
     public string name;
-
-    //private List<int> hands;
-    //private List<int> used;
 
     public void Setup(int tmp_zihu, string tmp_name)
     {
@@ -32,6 +30,9 @@ public abstract class BasePlayer : MonoBehaviour
 
     // 手持ちの牌
     public List<int> Hands { get; set; }
+
+    // GameObjectと接続している手牌
+    public Dictionary<GameObject, int> Hand_Objects { get; set; }
     
     // 捨てた牌
     public List<int> Used { get; set; }
@@ -46,6 +47,9 @@ public abstract class BasePlayer : MonoBehaviour
     
     // プレイヤーの手牌のポジションを管理する
     public Vector3 Direction { get; set; }
+
+    // プレイヤーの手牌の向きを管理する
+    public Quaternion Rotation { get; set; }
     
     // 山から取って来た牌を手持ちに追加
     public void AddNewPai(int newPai)
@@ -54,10 +58,19 @@ public abstract class BasePlayer : MonoBehaviour
         Hands.Sort();
     }
 
-    // 牌を捨てる処理
-    public int DumpPai()
+    public void SetHandsObject(List<GameObject> pais)
     {
-        int choiced = ChoicePai();
+        Hand_Objects = new Dictionary<GameObject, int>();
+        for(int i = 0; i < pais.Count; i++ )
+        {
+            Hand_Objects.Add(pais[i], i);
+        }
+    }
+
+    // 牌を捨てる処理
+    public async UniTask<int> DumpPai()
+    {
+        int choiced = await ChoicePai();
         int choiced_pai = Hands[choiced];
         Used.Add(choiced_pai);
         Hands.Remove(choiced_pai);
@@ -74,7 +87,10 @@ public abstract class BasePlayer : MonoBehaviour
         return choiced_pai;
     }
 
+    // プレイヤーのターンが始まった際の処理
+    public abstract void ResetTurn();
+
     // どの牌を捨てるか選ぶ部分
-    public abstract int ChoicePai();
+    public abstract UniTask<int> ChoicePai();
 
 }
