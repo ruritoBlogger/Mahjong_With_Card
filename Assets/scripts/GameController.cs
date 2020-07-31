@@ -114,6 +114,7 @@ public class GameController : MonoBehaviour
             string pai_name = PaiController.GetComponent<PaiController>().TransformToString(i);
             GameObject pai_prefab = Resources.Load<GameObject>("prefabs/pais/" + key_name + "/" + pai_name);
             GameObject tmp = Instantiate(pai_prefab) as GameObject;
+            tmp.AddComponent<BoxCollider>();
             tmp.transform.localScale = new Vector3(tmp.transform.localScale.x * 0.2f, tmp.transform.localScale.y * 0.2f, tmp.transform.localScale.z * 0.2f);
 
             pai_object_list.Add(tmp);
@@ -127,7 +128,7 @@ public class GameController : MonoBehaviour
 
     /*
      * ゲームモードについて
-     * 
+     *
      * -1: 例外処理
      *  1: ゲーム進行
      *  2: 上がり処理
