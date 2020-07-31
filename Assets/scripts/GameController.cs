@@ -95,8 +95,8 @@ public class GameController : MonoBehaviour
             UserPlayer tmp = new UserPlayer();
             if( System.Object.ReferenceEquals(GetPlayer(i).GetType(), tmp.GetType()) )
             {
-                main_camera.transform.position = new Vector3(GetPlayer(i).HandsPosition.x * 1.7f + GetPlayer(i).Direction.x, 20.0f, GetPlayer(i).HandsPosition.z * 1.7f + GetPlayer(i).Direction.z);
-                main_camera.transform.rotation = Quaternion.Euler(20, 90*(i+1), 0);
+                main_camera.transform.position = new Vector3(GetPlayer(i).HandsPosition.x * 1.8f + GetPlayer(i).Direction.x, 35.0f, GetPlayer(i).HandsPosition.z * 1.8f + GetPlayer(i).Direction.z);
+                main_camera.transform.rotation = Quaternion.Euler(35, 90*(i+1), 0);
             }
         }
 
