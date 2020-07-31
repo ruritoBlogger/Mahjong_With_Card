@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour
             else z_key -= 50;
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
             GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
-            GetPlayer(i).Direction = new Vector3(z_key/50 * pai_x, 0.0f, x_key/50 * pai_z);
+            GetPlayer(i).Direction = new Vector3(-z_key/50 * pai_x, 0.0f, x_key/50 * pai_z);
             GetPlayer(i).Rotation = Quaternion.Euler(-90, 90*i, 0);
 
             // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
