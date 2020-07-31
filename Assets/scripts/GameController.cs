@@ -87,7 +87,7 @@ public class GameController : MonoBehaviour
             else if (i == 2) x_key += 50;
             else z_key -= 50;
             GetPlayer(i).HandsPosition = new Vector3(x_key, 0.0f, z_key);
-            GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, 0.0f, z_key / 2);
+            GetPlayer(i).DumpedPosition = new Vector3(x_key / 2, -1.0f, z_key / 2);
             GetPlayer(i).Direction = new Vector3(-z_key/50 * pai_x, 0.0f, x_key/50 * pai_z);
             GetPlayer(i).Rotation = Quaternion.Euler(-90, 90*i, 0);
 
@@ -172,7 +172,7 @@ public class GameController : MonoBehaviour
         // 牌の位置を初期化する
         for( int i = 0; i < pai_object_list.Count; i++ )
         {
-            MovePai(pai_object_list[i], new Vector3(0, -30, 0));
+            MovePai(pai_object_list[i], new Vector3(0, -30, 0), Quaternion.Euler(0, 0, 0));
         }
 
         // 牌を並べる部分
@@ -232,7 +232,9 @@ public class GameController : MonoBehaviour
                     MovePai(pai_object_list[dumped_pai],
                             new Vector3( player.DumpedPosition.x + player.Direction.x * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * player.Direction.z),
                                          player.DumpedPosition.y,
-                                         player.DumpedPosition.z + player.Direction.z * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * (-player.Direction.x) )) );
+                                         player.DumpedPosition.z + player.Direction.z * ((player.Used.Count-1)%7-3) + (int)((player.Used.Count-1)/7 * (-player.Direction.x) )),
+                                Quaternion.Euler(0, player.Rotation.y + (menber_key)*90+90, 270)
+                                );
                 }
             }
             if (flag)
@@ -284,7 +286,7 @@ public class GameController : MonoBehaviour
             hands.Add(pai_object_list[hand]);
         }
         player.SetHandsObject(hands);
-        MovePais(hands, 
+        MovePais(hands,
                  new Vector3( player.HandsPosition.x - 6 * player.Direction.x,
                               player.HandsPosition.y,
                               player.HandsPosition.z - 6 * player.Direction.z),
@@ -297,9 +299,10 @@ public class GameController : MonoBehaviour
         return menber_list[menber_turn_list[key] - 1];
     }
 
-    private void MovePai(GameObject pai, Vector3 key)
+    private void MovePai(GameObject pai, Vector3 key, Quaternion rotation)
     {
         pai.transform.position = key;
+        pai.transform.rotation = rotation;
     }
 
     // 基準座標から横並びさせる

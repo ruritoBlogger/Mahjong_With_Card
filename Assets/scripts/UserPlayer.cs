@@ -27,7 +27,6 @@ public class UserPlayer : BasePlayer
             if( Physics.Raycast(ray, out hit))
             {
                 clickedGameObject = hit.collider.gameObject;
-                Debug.Log(clickedGameObject);
             }
         }
     }
