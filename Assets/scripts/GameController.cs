@@ -91,11 +91,17 @@ public class GameController : MonoBehaviour
             GetPlayer(i).Direction = new Vector3(-z_key/50 * pai_x, 0.0f, x_key/50 * pai_z);
             GetPlayer(i).Rotation = Quaternion.Euler(-90, 90*i, 0);
 
-            // 捨てる牌を選択できるプレイヤーの場合はメインカメラを追従させる
+            // 捨てる牌を選択できるプレイヤーの場合はメインカメラと手牌の位置を調整する
             UserPlayer tmp = new UserPlayer();
             if( System.Object.ReferenceEquals(GetPlayer(i).GetType(), tmp.GetType()) )
             {
                 main_camera.transform.rotation = Quaternion.Euler(90, 90*(i+1), 0);
+                GetPlayer(i).HandsPosition = new Vector3(x_key*3/5, 20, z_key*3/5);
+                int tmp_y_key = 0;
+                if( z_key == -50 || x_key == 50) tmp_y_key += 180;
+                GetPlayer(i).Rotation = Quaternion.Euler(-90 + x_key/50*90 - z_key/50*90,
+                                                         90*(i-1) + tmp_y_key,
+                                                         0 - x_key/50*90 + z_key/50*90);
             }
         }
 
@@ -291,6 +297,11 @@ public class GameController : MonoBehaviour
                               player.HandsPosition.z - 6 * player.Direction.z),
                  player.Direction,
                  player.Rotation);
+    }
+
+    public void ShowUserPlayerHands(BasePlayer player)
+    {
+
     }
 
     private BasePlayer GetPlayer(int key)
